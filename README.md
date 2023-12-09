@@ -1,13 +1,14 @@
 # Media Archivist
 
-This script sorts media files from a source folder to a target folder according to their create date. At the destination, the files are stored under the following structure:
+This script sorts media files from a source folder to a target folder according to their create date and their file extension. At the destination, the files are stored under the following structure:
 
 target-path/YYYY/YYYY-MM/YYYY-MM-DD/
 
 Among other things, you can configure whether the files should be copied or moved.
 
 ## Usage
-python3 /path-to-script/archivist.py config=CONFIG-FILE [--clean]
+
+    python3 /path-to-script/archivist.py config=CONFIG-FILE [--clean]
 
 If CONFIG-FILE does not exist, it is created and then has to be edited.
 
