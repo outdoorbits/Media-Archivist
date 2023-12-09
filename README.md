@@ -13,6 +13,7 @@ If CONFIG-FILE does not exist, it is created and then has to be edited.\
 
 The source path can be cleared using the --clean option.\
 
+## Configuration
 Contents of the config file:\
 conf_SOURCE_DIR='/your/source/dir'\
 conf_TARGET_DIR='/your/target/dir'\
@@ -29,39 +30,39 @@ conf_FILE_EXTENSIONS_LIST_AUDIO='mp3;wav'\
 conf_DB_MIN_IDLE_SEC=15\
 conf_MIN_MEDIA_FILE_AGE_SEC=10
 
-## Explanation
+### Configuration details
 #conf_SOURCE_DIR
 Source directory
 
-# conf_TARGET_DIR
+#### conf_TARGET_DIR
 Target directory
 
-# conf_MOVE_FILES
+#### conf_MOVE_FILES
 Copy files: False\
 Move files: True
 
-# conf_SET_USER
+#### conf_SET_USER
 Linux username that should own the files in the target directory\
 This will only be applied if the user and group are defined.
 
-# conf_SET_GROUP
+#### conf_SET_GROUP
 Linux group that the files in the target directory should belong to\
 This will only be applied if the user and group are defined.
 
-# conf_SET_PERMISSIONS
+#### conf_SET_PERMISSIONS
 Permissions of the files in the target directory. Example: '700'
 
-# conf_FILE_EXTENSIONS_LIST_WEB_IMAGES, conf_FILE_EXTENSIONS_LIST_HEIC, conf_FILE_EXTENSIONS_LIST_RAW, conf_FILE_EXTENSIONS_LIST_TIF, conf_FILE_EXTENSIONS_LIST_VIDEO, conf_FILE_EXTENSIONS_LIST_AUDIO
+#### conf_FILE_EXTENSIONS_LIST_WEB_IMAGES, conf_FILE_EXTENSIONS_LIST_HEIC, conf_FILE_EXTENSIONS_LIST_RAW, conf_FILE_EXTENSIONS_LIST_TIF, conf_FILE_EXTENSIONS_LIST_VIDEO, conf_FILE_EXTENSIONS_LIST_AUDIO
 Endings of media files to be copied. All other endings are ignored. Upper and lower case letters are not taken into account.
 
-# conf_FILE_EXTENSIONS_SUBFOLDER_WEB_IMAGES, conf_FILE_EXTENSIONS_SUBFOLDER_HEIC, conf_FILE_EXTENSIONS_SUBFOLDER_RAW, conf_FILE_EXTENSIONS_SUBFOLDER_TIF, conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO, conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO
+#### conf_FILE_EXTENSIONS_SUBFOLDER_WEB_IMAGES, conf_FILE_EXTENSIONS_SUBFOLDER_HEIC, conf_FILE_EXTENSIONS_SUBFOLDER_RAW, conf_FILE_EXTENSIONS_SUBFOLDER_TIF, conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO, conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO
 Define an optional subpath at target for this file extensions, for example:
 conf_FILE_EXTENSIONS_SUBFOLDER_RAW='RAW'
 Makes RAW files are transfered to
 target-path/YYYY/YYYY-MM/YYYY-MM-DD/RAW
 
-# conf_DB_MIN_IDLE_SEC
+#### conf_DB_MIN_IDLE_SEC
 To avoid the script being executed multiple times, the script is only executed if the database created in the source directory has not been changed for at least this many seconds
 
-# conf_MIN_MEDIA_FILE_AGE_SEC
+#### conf_MIN_MEDIA_FILE_AGE_SEC
 Files will not be copied until they have reached this age. This is to avoid sorting files that are currently being written to the source directory.
