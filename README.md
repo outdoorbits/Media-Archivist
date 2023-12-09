@@ -9,9 +9,9 @@ Among other things, you can configure whether the files should be copied or move
 ## Usage
 python3 /path-to-script/archivist.py config=CONFIG-FILE [--clean]
 
-If CONFIG-FILE does not exist, it is created and then has to be edited.\
+If CONFIG-FILE does not exist, it is created and then has to be edited.
 
-The source path can be cleared using the --clean option.\
+The source path can be cleared using the --clean option.
 
 ## Configuration
 Contents of the config file:\
