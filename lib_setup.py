@@ -132,7 +132,8 @@ class setup(object):
 					'conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO':			{'value': '', 'type' : 'str'},
 					'conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO':			{'value': '', 'type' : 'str'},
 					'conf_DB_MIN_IDLE_SEC':							{'value': 15, 'type' : 'int'},
-					'conf_MIN_MEDIA_FILE_AGE_SEC':					{'value': 10, 'type' : 'int'}
+					'conf_MIN_MEDIA_FILE_AGE_SEC':					{'value': 10, 'type' : 'int'},
+					'conf_EXEC_SCRIPT_IF_SUCCESS':					{'value': 'echo "It worked."; echo "Replace this by whatever you need!"', 'type' : 'str'}
 				}
 		)
 

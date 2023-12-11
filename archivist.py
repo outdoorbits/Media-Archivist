@@ -65,6 +65,8 @@ class archivist(object):
 		self.__conf_DB_MIN_IDLE_SEC					= self.__setup.get_val('conf_DB_MIN_IDLE_SEC')
 		self.__conf_MIN_MEDIA_FILE_AGE_SEC			= self.__setup.get_val('conf_MIN_MEDIA_FILE_AGE_SEC')
 
+		self.__conf_EXEC_SCRIPT_IF_SUCCESS			= self.__setup.get_val('conf_EXEC_SCRIPT_IF_SUCCESS')
+
 
 		self.media_extensions	= 	self.__conf_FILE_EXTENSIONS_LIST_WEB_IMAGES + \
 									self.__conf_FILE_EXTENSIONS_LIST_HEIC + \
@@ -188,6 +190,12 @@ class archivist(object):
 			if self.__conf_SET_PERMISSIONS:
 				print(f'Setting permissions to {self.__conf_SET_PERMISSIONS} ...')
 				subprocess.run(['chmod', '-R', f"{self.__conf_SET_PERMISSIONS}", self.__conf_TARGET_DIR])
+
+			if self.__conf_EXEC_SCRIPT_IF_SUCCESS:
+				try:
+					subprocess.run(self.__conf_EXEC_SCRIPT_IF_SUCCESS, shell=True)
+				except:
+					print('Your script defined in conf_EXEC_SCRIPT_IF_SUCCESS raised an error.')
 
 		print ('\nFinished.')
 

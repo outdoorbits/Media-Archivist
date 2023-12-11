@@ -36,6 +36,7 @@ conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO=''\
 conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO=''\
 conf_DB_MIN_IDLE_SEC=15\
 conf_MIN_MEDIA_FILE_AGE_SEC=10
+conf_EXEC_SCRIPT_IF_SUCCESS='echo "It worked"; echo "Replace this by whatever you need!"'
 
 ### Configuration details
 #conf_SOURCE_DIR
@@ -73,3 +74,6 @@ To avoid the script being executed multiple times, the script is only executed i
 
 #### conf_MIN_MEDIA_FILE_AGE_SEC
 Files will not be copied until they have reached this age. This is to avoid sorting files that are currently being written to the source directory.
+
+#### conf_EXEC_SCRIPT_IF_SUCCESS
+If files are transferred or folders are created, this script will be executed at the end.
