@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Author: Stefan Saam, github@saams.de
 
@@ -133,7 +133,16 @@ class setup(object):
 					'conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO':			{'value': '', 'type' : 'str'},
 					'conf_DB_MIN_IDLE_SEC':							{'value': 15, 'type' : 'int'},
 					'conf_MIN_MEDIA_FILE_AGE_SEC':					{'value': 10, 'type' : 'int'},
-					'conf_EXEC_SCRIPT_IF_SUCCESS':					{'value': 'echo "It worked."; echo "Replace this by whatever you need!"', 'type' : 'str'}
+					'conf_EXEC_SCRIPT_IF_SUCCESS':					{'value': 'echo "It worked."; echo "Replace this by whatever you need!"', 'type' : 'str'},
+					'conf_MAIL_HTML':								{'value': True, 'type' : 'bool'},
+					'conf_SMTP_SERVER':								{'value': '', 'type' : 'str'},
+					'conf_SMTP_PORT':								{'value': '465', 'type' : 'str'},
+					'conf_MAIL_SECURITY':							{'value': 'STARTTLS', 'type' : 'str'},
+					'conf_MAIL_USER':								{'value': '', 'type' : 'str'},
+					'conf_MAIL_PASSWORD':							{'value': '', 'type' : 'str'},
+					'conf_MAIL_FROM':								{'value': '', 'type' : 'str'},
+					'conf_MAIL_TO':									{'value': '', 'type' : 'str'},
+					'conf_MAIL_TIMEOUT':							{'value': 15, 'type' : 'int'}
 				}
 		)
 

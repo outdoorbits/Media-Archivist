@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Author: Stefan Saam, github@saams.de
 
@@ -25,11 +25,16 @@ import sys
 import time
 
 import lib_database
+import lib_mail
 import lib_setup
 
 class archivist(object):
 
 	def __init__(self, ConfigFilePath):
+
+		# config
+		self.ConfigFilePath		= ConfigFilePath
+
 		# objects
 		self.__setup			= lib_setup.setup(ConfigFilePath)
 
@@ -102,6 +107,8 @@ class archivist(object):
 
 		MediaFilePathList	= subprocess.check_output(Command,shell=True).decode().strip().split('\n')
 		MediaFilePathList	= list(filter(None, MediaFilePathList)) # remove None items
+
+		FilesAtTarget	= {}
 
 		for MediaFilePath in MediaFilePathList:
 
@@ -178,8 +185,50 @@ class archivist(object):
 
 				self.db.dbInsertMediaFile(MediaFilePath)
 
+				TargetSubPath	= TargetPath.replace(self.__conf_TARGET_DIR, '', 1).strip('/')
+				if TargetSubPath not in FilesAtTarget.keys():
+					FilesAtTarget[TargetSubPath]	= []
+				FilesAtTarget[TargetSubPath].append(os.path.basename(MediaFilePath))
+
 		print(f"\n * {FilesProcessed} files processed.")
 		print(f" * {DirsCreated} new folders created.")
+
+		for TargetSubPath in FilesAtTarget.keys():
+			print(f"\n{TargetSubPath}")
+			for FileName in FilesAtTarget[TargetSubPath]:
+				print(f" - {FileName}")
+
+		if (FilesProcessed > 0) or (DirsCreated > 0):
+			mail	= lib_mail.mail(self.__setup)
+			if mail.mail_configured():
+				mail_subject	= f'archivist: {ConfigFilePath}'
+
+				mail_text_plain	= f"""
+ * {FilesProcessed} files processed.
+ * {DirsCreated} new folders created.
+				"""
+
+				for TargetSubPath in FilesAtTarget.keys():
+					mail_text_plain	+= f"\n\n{TargetSubPath}"
+
+					for FileName in FilesAtTarget[TargetSubPath]:
+						mail_text_plain	+= f"\n - {FileName}"
+
+				mail_text_html	= f"""
+<ul>
+	<li>{FilesProcessed} files processed.</li>
+	<li>{DirsCreated} new folders created.</li>
+</ul>
+				"""
+				for TargetSubPath in FilesAtTarget.keys():
+					mail_text_html	+= f"<h3>{TargetSubPath}</h3>"
+
+					mail_text_html	+= "\n<ul>"
+					for FileName in FilesAtTarget[TargetSubPath]:
+						mail_text_html	+= f"\n<li>{FileName}</li>"
+					mail_text_html	+= "\n</ul>"
+
+				mail.sendmail(Subject=mail_subject, TextPlain=mail_text_plain, TextHTML=mail_text_html)
 
 		if (FilesProcessed > 0) or (DirsCreated > 0):
 
