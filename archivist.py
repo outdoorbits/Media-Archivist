@@ -178,7 +178,7 @@ class archivist(object):
 						shutil.copy(MediaFilePath, TargetFileName)
 
 					if FileDateDict['Date missing']:
-						print("writing 'Create Date' into media file")
+						print(f"Writing 'Create Date' into media file: {FileDateDict['Y']}:{FileDateDict['M']}:{FileDateDict['D']} {FileDateDict['h']}:{FileDateDict['m']}:{FileDateDict['s']}")
 						CreateDate	= f"{FileDateDict['Y']}:{FileDateDict['M']}:{FileDateDict['D']} {FileDateDict['h']}:{FileDateDict['m']}:{FileDateDict['s']}"
 						Command	= ['exiftool', '-overwrite_original', f"-CreateDate='{CreateDate}'",TargetFileName]
 						subprocess.run(Command)
@@ -275,10 +275,10 @@ class archivist(object):
 			WriteEXIFCreateDate	= True
 
 			AlternativeDateTags	= [
-				'Create Date',
 				'Creation Date',
 				'Media Create Date',
 				'Date Time Original',
+				'Date/Time Original',
 				'File Modification Date Time',
 				'File Access Date Time'
 			]
@@ -287,18 +287,22 @@ class archivist(object):
 				' ',
 				'_',
 				'-',
-				''
+				'',
 			]
 
 			for AlternativeDateTag in AlternativeDateTags:
 				for Alternative_Spacer in Alternative_Spacers:
+					#print(f"AlternativeDateTag: {AlternativeDateTag}; Alternative_Spacer: {Alternative_Spacer}")
 					if ('Create Date' not in EXIF_List) and (AlternativeDateTag.replace(' ', Alternative_Spacer) in EXIF_List):
-						if self.CreateDateCheck(EXIF_List[AlternativeDateTag.replace(' ', Alternative_Spacer)]):
+						print("'Create Date' not in EXIF_List")
+						if self.ValidDateCheck(EXIF_List[AlternativeDateTag.replace(' ', Alternative_Spacer)]):
 							EXIF_List['Create Date']	= EXIF_List[AlternativeDateTag.replace(' ', Alternative_Spacer)]
+							print(f"Got Create Date from '{AlternativeDateTag}': {EXIF_List['Create Date']}")
 
 			if 'Create Date' not in EXIF_List:
-				print(f'MediaFilePath: {MediaFilePath} xxx')
 				EXIF_List['Create Date']	= datetime.fromtimestamp(os.path.getmtime(MediaFilePath)).strftime("%Y:%m:%d:%H:%M:%S")
+				print(f"Got Create Date from filesystem date: {EXIF_List['Create Date']}")
+
 
 		FileDate	= EXIF_List['Create Date']
 
@@ -309,7 +313,7 @@ class archivist(object):
 
 		return(FileDateDict)
 
-	def CreateDateCheck(self,DateTimeStr):
+	def ValidDateCheck(self,DateTimeStr):
 		FileDateDict	= self.getFileDateDict(DateTimeStr)
 
 		result	= (FileDateDict['Y'] != '0000') and (FileDateDict['M'] != '00') and (FileDateDict['D'] != '00')
