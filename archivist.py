@@ -60,6 +60,7 @@ class archivist(object):
 		self.__conf_FILE_EXTENSIONS_LIST_TIF				= self.__setup.get_val('conf_FILE_EXTENSIONS_LIST_TIF').split(';')
 		self.__conf_FILE_EXTENSIONS_LIST_VIDEO				= self.__setup.get_val('conf_FILE_EXTENSIONS_LIST_VIDEO').split(';')
 		self.__conf_FILE_EXTENSIONS_LIST_AUDIO				= self.__setup.get_val('conf_FILE_EXTENSIONS_LIST_AUDIO').split(';')
+		self.__conf_FILE_EXTENSIONS_LIST_GEO				= self.__setup.get_val('conf_FILE_EXTENSIONS_LIST_GEO').split(';')
 
 		self.__conf_FILE_EXTENSIONS_SUBFOLDER_WEB_IMAGES	= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_WEB_IMAGES')
 		self.__conf_FILE_EXTENSIONS_SUBFOLDER_HEIC			= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_HEIC')
@@ -67,6 +68,7 @@ class archivist(object):
 		self.__conf_FILE_EXTENSIONS_SUBFOLDER_TIF			= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_TIF')
 		self.__conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO			= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_VIDEO')
 		self.__conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO			= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO')
+		self.__conf_FILE_EXTENSIONS_SUBFOLDER_GEO			= self.__setup.get_val('conf_FILE_EXTENSIONS_SUBFOLDER_GEO')
 
 		self.__conf_DB_MIN_IDLE_SEC					= self.__setup.get_val('conf_DB_MIN_IDLE_SEC')
 		self.__conf_MIN_MEDIA_FILE_AGE_SEC			= self.__setup.get_val('conf_MIN_MEDIA_FILE_AGE_SEC')
@@ -79,7 +81,8 @@ class archivist(object):
 									self.__conf_FILE_EXTENSIONS_LIST_RAW + \
 									self.__conf_FILE_EXTENSIONS_LIST_TIF + \
 									self.__conf_FILE_EXTENSIONS_LIST_VIDEO + \
-									self.__conf_FILE_EXTENSIONS_LIST_AUDIO
+									self.__conf_FILE_EXTENSIONS_LIST_AUDIO + \
+									self.__conf_FILE_EXTENSIONS_LIST_GEO
 
 		self.database_path	= os.path.join(self.__conf_SOURCE_DIR,'archivist.sqlite3')
 
@@ -158,6 +161,10 @@ class archivist(object):
 				if self.__conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO:
 					if MediaFileExt in (extension.lower() for extension in self.__conf_FILE_EXTENSIONS_LIST_AUDIO):
 						TargetPath	= os.path.join(TargetPath, self.__conf_FILE_EXTENSIONS_SUBFOLDER_AUDIO)
+
+				if self.__conf_FILE_EXTENSIONS_SUBFOLDER_GEO:
+					if MediaFileExt in (extension.lower() for extension in self.__conf_FILE_EXTENSIONS_LIST_GEO):
+						TargetPath	= os.path.join(TargetPath, self.__conf_FILE_EXTENSIONS_SUBFOLDER_GEO)
 
 				# create target path
 				print(f"TargetPath: {TargetPath}")
