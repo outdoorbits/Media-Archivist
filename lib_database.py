@@ -42,6 +42,9 @@ class database(object):
 		dbCreateArray.append("create table mediafiles (ID integer primary key autoincrement);")
 		dbCreateArray.append("alter table mediafiles add column SourcePath text;")
 		dbCreateArray.append("create unique index SourcePath_idx on mediafiles(SourcePath);")
+		dbCreateArray.append("alter table mediafiles add column ModificationTime TIMESTAMP;")
+		dbCreateArray.append("drop index SourcePath_idx;")
+		dbCreateArray.append("create unique index MediaSource_idx on mediafiles(SourcePath, ModificationTime);")
 		#dbCreateArray.append("alter table mediafiles add column ... text;")
 
 		# try to get version of existing db
@@ -81,17 +84,15 @@ class database(object):
 		except:
 			return(False)
 
-	def dbMediaFileKnown(self, FilePath):
-		return(self.dbSelect(f"select SourcePath from mediafiles where SourcePath='{FilePath}'"))
+	def dbMediaFileKnown(self, FilePath, ModificationTime):
+		return(self.dbSelect(f"select SourcePath from mediafiles where SourcePath='{FilePath}' and ModificationTime={ModificationTime}"))
 
 
-	def dbInsertMediaFile(self,SourcePath):
+	def dbInsertMediaFile(self,SourcePath, ModificationTime):
 		#insert data
-		Command	= f"insert into mediafiles (SourcePath) values ('{SourcePath}');"
+		Command	= f"insert into mediafiles (SourcePath, ModificationTime) values ('{SourcePath}', {ModificationTime});"
 
 		self.dbExecute(Command)
-
-
 
 if __name__ == "__main__":
 	pass

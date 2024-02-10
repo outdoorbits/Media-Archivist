@@ -113,7 +113,7 @@ class archivist(object):
 
 		for MediaFilePath in MediaFilePathList:
 			SourceModificationTime	= os.path.getmtime(MediaFilePath)
-
+			print(f"xxx known: {self.db.dbMediaFileKnown(MediaFilePath, SourceModificationTime)}")
 			if not self.db.dbMediaFileKnown(MediaFilePath, SourceModificationTime):
 
 				print(f"\nFile: {MediaFilePath}")
@@ -173,10 +173,10 @@ class archivist(object):
 					FilesProcessed	+= 1
 					# transfer
 					if self.__conf_MOVE_FILES:
-						print(f"move '{MediaFilePath}' to '{TargetFileName}'")
+						print(f"move '{MediaFilePath}' to '{FileDateDict['Y']}-{FileDateDict['M']}-{FileDateDict['D']}'")
 						shutil.move(MediaFilePath, TargetFileName)
 					else:
-						print(f"copy '{MediaFilePath}' to '{TargetFileName}'")
+						print(f"copy '{MediaFilePath}' to '{FileDateDict['Y']}-{FileDateDict['M']}-{FileDateDict['D']}'")
 						shutil.copy(MediaFilePath, TargetFileName)
 
 					if FileDateDict['Date missing']:
