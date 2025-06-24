@@ -116,6 +116,7 @@ class setup(object):
 					'conf_SOURCE_DIR':								{'value': '/your/source/dir', 'type' : 'str'},
 					'conf_TARGET_DIR':								{'value': '/your/target/dir', 'type' : 'str'},
 					'conf_MOVE_FILES':								{'value': True, 'type' : 'bool'},
+					'conf_RENAME_FILES':							{'value': False, 'type' : 'bool'},
 					'conf_OVERWRITE':								{'value': True, 'type' : 'bool'},
 					'conf_SET_USER':								{'value': '', 'type' : 'str'},
 					'conf_SET_GROUP':								{'value': '', 'type' : 'str'},
