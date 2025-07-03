@@ -21,11 +21,12 @@ from datetime import datetime
 import os
 import re
 import subprocess
+import sys#xxx
 
 class mediafile(object):
 
 	def __init__(self, FilePathName, rename = False):
-
+		print(FilePathName)
 		self.__pattern		= re.compile(r"^\d{4}-[01]\d-[0-3]\d_[0-2]\d-[0-5]\d-[0-5]\d_-")
 
 		self.FilePathName	= FilePathName
@@ -60,45 +61,39 @@ class mediafile(object):
 				'CreationDate',
 				'MediaCreateDate',
 				'DateTimeOriginal',
-				'FileModificationDateTime',
-				'FileAccessDateTime'
+				'FileModifyDate',
+				'FileAccessDate'
 			]
 
-			ExifCommand		= ['exiftool', os.path.join(self.FilePath, self.FileName), '-dateFormat', '%Y-%m-%d_%H-%M-%S'] + [f"-{tag}" for tag in DateTags] + ['-S']
-			EXIF_output	= None
-			try:
-				EXIF_output	= subprocess.check_output(ExifCommand, text=True)
-			except:
+			EXIF_output	= ''
+			for DateTag in DateTags:
+				ExifCommand		= ['exiftool', os.path.join(self.FilePath, self.FileName), '-dateFormat', '%Y-%m-%d_%H-%M-%S'] + [f"-{DateTag}"] + ['-S']
+
+				try:
+					EXIF_output	= subprocess.check_output(ExifCommand, text=True).strip()
+				except:
+					pass
+
+				if EXIF_output:
+					# first hit finishes search
+					break
+
+			if not EXIF_output:
 				return(self.set_panic_values())
+			else:
 
-			if EXIF_output is None:
-				return(self.set_panic_values())
+				try:
+					Val	= EXIF_Line.split(':', 1)[1].strip()
+				except:
+					Val	= None
 
-			if any(DateTag in EXIF_output for DateTag in DateTags):
-
-				EXIF_Lines	= EXIF_output.strip().split('\n')
-
-				FileCreateDate	= '0000-00-00_00-00-00'
-				for EXIF_Line in EXIF_Lines[1:]:
-					try:
-						Var, Val	= EXIF_Line.split(':', 1)
-					except:
-						continue
-
-					Val	= Val.strip()
-
-					if Var in DateTags:
-						if (Val > FileCreateDate) or (FileCreateDate == FileCreateDateNull):
-							FileCreateDate	= Val
-
-				if FileCreateDate != '0000-00-00_00-00-00':
-					return(self.__get_datetime_from_string(FileCreateDate))
+				if not Val is None:
+					return(self.__get_datetime_from_string(Val))
 				else:
 					self.exifdate_exists	= False
 					return(self.set_panic_values())
-			else:
-				self.exifdate_exists	= False
-				return(False)
+
+		return(self.set_panic_values())
 
 	def set_panic_values(self):
 		if not self.get_filesystem_values():
