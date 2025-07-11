@@ -21,12 +21,11 @@ from datetime import datetime
 import os
 import re
 import subprocess
-import sys#xxx
+# import sys#xxx
 
 class mediafile(object):
 
 	def __init__(self, FilePathName, rename = False):
-		print(FilePathName)
 		self.__pattern		= re.compile(r"^\d{4}-[01]\d-[0-3]\d_[0-2]\d-[0-5]\d-[0-5]\d_-")
 
 		self.FilePathName	= FilePathName
@@ -68,7 +67,6 @@ class mediafile(object):
 			EXIF_output	= ''
 			for DateTag in DateTags:
 				ExifCommand		= ['exiftool', os.path.join(self.FilePath, self.FileName), '-dateFormat', '%Y-%m-%d_%H-%M-%S'] + [f"-{DateTag}"] + ['-S']
-
 				try:
 					EXIF_output	= subprocess.check_output(ExifCommand, text=True).strip()
 				except:
@@ -83,10 +81,9 @@ class mediafile(object):
 			else:
 
 				try:
-					Val	= EXIF_Line.split(':', 1)[1].strip()
+					Val	= EXIF_output.split(':', 1)[1].strip()
 				except:
 					Val	= None
-
 				if not Val is None:
 					return(self.__get_datetime_from_string(Val))
 				else:
